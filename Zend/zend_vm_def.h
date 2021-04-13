@@ -5230,7 +5230,7 @@ ZEND_VM_C_LABEL(send_array):
 			zval *op2 = GET_OP2_ZVAL_PTR(BP_VAR_R);
 			uint32_t skip = opline->extended_value;
 			uint32_t count = zend_hash_num_elements(ht);
-			zend_long len = zval_get_long(op2);
+			zend_long len = zval_get_long_ex(op2, /* is_lax */ false);
 
 			if (len < 0) {
 				len += (zend_long)(count - skip);
@@ -6104,7 +6104,7 @@ ZEND_VM_COLD_CONST_HANDLER(51, ZEND_CAST, CONST|TMP|VAR|CV, ANY, TYPE)
 
 	switch (opline->extended_value) {
 		case IS_LONG:
-			ZVAL_LONG(result, zval_get_long_ex(expr, /* lax */ true));
+			ZVAL_LONG(result, zval_get_long(expr));
 			break;
 		case IS_DOUBLE:
 			ZVAL_DOUBLE(result, zval_get_double(expr));
@@ -9028,6 +9028,7 @@ ZEND_VM_COLD_CONST_HANDLER(190, ZEND_COUNT, CONST|TMPVAR|CV, UNUSED)
 				zval retval;
 
 				zend_call_method_with_0_params(zobj, NULL, NULL, "count", &retval);
+				// TODO Should this use zval_get_long_ex(&retval, /* is lax */ false);
 				count = zval_get_long(&retval);
 				zval_ptr_dtor(&retval);
 				break;
@@ -9600,7 +9601,7 @@ ZEND_VM_C_LABEL(fetch_dim_r_index_array):
 		if (EXPECTED(Z_TYPE_P(dim) == IS_LONG)) {
 			offset = Z_LVAL_P(dim);
 		} else {
-			offset = zval_get_long(dim);
+			offset = zval_get_long_ex(dim, /* is_lax */ false);
 		}
 		ht = Z_ARRVAL_P(container);
 		ZEND_HASH_INDEX_FIND(ht, offset, value, ZEND_VM_C_LABEL(fetch_dim_r_index_undef));
