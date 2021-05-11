@@ -1,5 +1,7 @@
 --TEST--
 Bug #51800 proc_open on Windows hangs forever, the right way to do it
+--SKIPIF--
+<?php include 'skipif.inc'; ?>
 --FILE--
 <?php
 $callee = __DIR__ . "/process_proc_open_bug51800_right.php";

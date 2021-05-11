@@ -6,6 +6,7 @@ Bug #51800 proc_open on Windows hangs forever
     if (getenv("SKIP_SLOW_TESTS")) {
         die("skip slow test");
     }
+    require_once __DIR__ . 'skipif.inc';
 ?>
 --XFAIL--
 pipes have to be read/written simultaneously
