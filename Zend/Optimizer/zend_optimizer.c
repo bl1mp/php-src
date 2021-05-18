@@ -73,7 +73,7 @@ int zend_optimizer_eval_unary_op(zval *result, zend_uchar opcode, zval *op1) /* 
 	if (unary_op) {
 		if (opcode == ZEND_BW_NOT
 		 && Z_TYPE_P(op1) != IS_LONG
-		 && Z_TYPE_P(op1) != IS_DOUBLE
+		 /* && Z_TYPE_P(op1) != IS_DOUBLE */ // TODO Optimize when float is int compatible
 		 && Z_TYPE_P(op1) != IS_STRING) {
 			/* produces "Unsupported operand types" exception */
 			return FAILURE;
