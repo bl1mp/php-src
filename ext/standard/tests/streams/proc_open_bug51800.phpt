@@ -2,11 +2,13 @@
 Bug #51800 proc_open on Windows hangs forever
 --SKIPIF--
 <?php
-    echo 'skip expected to fail or take too long';
-    if (getenv("SKIP_SLOW_TESTS")) {
-        die("skip slow test");
-    }
-    require_once __DIR__ . 'skipif.inc';
+echo 'skip expected to fail or take too long';
+if (getenv("SKIP_SLOW_TESTS")) {
+    die("skip slow test");
+}
+if (strpos(PHP_OS, 'FreeBSD') !== false) {
+    die("skip for FreeBSD");
+}
 ?>
 --XFAIL--
 pipes have to be read/written simultaneously
