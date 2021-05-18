@@ -14,12 +14,12 @@ if (substr(PHP_OS, 0, 3) == 'WIN' ) {
 --FILE--
 <?php
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-$socketConn = socket_connect($socket, "127.0.0.1", 100000);
+socket_set_option($socket, -1, -1, -1);
 var_dump(socket_last_error($socket));
 socket_clear_error($socket);
 var_dump(socket_last_error($socket));
 ?>
 --EXPECTF--
-Warning: socket_connect(): unable to connect [%d]: Connection refused in %s on line %d
+Warning: socket_set_option(): Unable to set socket option [%s]: %s in %s on line %d
 int(%d)
 int(0)
